@@ -1,50 +1,46 @@
-INSERT INTO users (email, password_hash, first_name, last_name, phone) VALUES
-('jan.mrkvicka@gmail.com', '$2b$10$e8...hash1', 'Ján', 'Mrkvička', '+421901123456'),
-('maria.hubova@azet.sk', '$2b$10$e8...hash2', 'Mária', 'Hubová', '+421902987654'),
-('peter.kovac@zoznam.sk', '$2b$10$e8...hash3', 'Peter', 'Kováč', '+421903555444');
+INSERT INTO city VALUES (1, 'Košice'), (2, 'Bratislava');
+ 
+INSERT INTO event_status VALUES (1, 'Plánovaná', 1), (2, 'Predaj otvorený', 2), (3, 'Zrušená', 3);
+INSERT INTO ticket_status VALUES (1, 'Voľný', 1), (2, 'Predaný', 2);
+INSERT INTO order_status VALUES (1, 'Nová', 1), (2, 'Zaplatená', 2), (3, 'Odoslaná', 3);
+ 
+INSERT INTO venues VALUES
+ (1, 'Aura Hall',  'Hlavná 10',   '04001', 1),
+ (2, 'Aura Arena', 'Dunajská 25', '81108', 2);
+ 
+INSERT INTO seats VALUES
+ (1, 1, 'A', 1, 1), (2, 1, 'A', 1, 2), (3, 1, 'A', 1, 3),
+ (4, 1, 'B', 1, 1), (5, 1, 'B', 1, 2), (6, 1, 'B', 1, 3),
+ (7, 2, 'A', 1, 1), (8, 2, 'A', 1, 2);
+ 
+INSERT INTO events VALUES
+ (1, 1, 'Jazz Night',  '2026-12-05 19:00:00', 2),
+ (2, 2, 'Rock Festival', '2026-12-20 18:00:00', 2);
+ 
+INSERT INTO ticket_categories VALUES
+ (1, 1, 'VIP',      50.00),
+ (2, 1, 'Štandard', 25.00),
+ (3, 2, 'Štandard', 30.00);
+INSERT INTO tickets VALUES
+ (1, 1, 1, 1, 2),
+ (2, 1, 1, 2, 2),
+ (3, 1, 1, 3, 1),
+ (4, 1, 2, 4, 2),
+ (5, 1, 2, 5, 1),
+ (6, 1, 2, 6, 1),
+ (7, 2, 3, 7, 1),
+ (8, 2, 3, 8, 1);
+ 
+INSERT INTO customers VALUES
+ (1, 'Ján',  'Novák',  'jan.novak@example.com'),
+ (2, 'Mária', 'Kováčová', 'maria.kovacova@example.com');
+ 
+INSERT INTO orders VALUES
+ (1, 1, '2026-11-01 10:15:00', 2),
+ (2, 2, '2026-11-02 14:40:00', 1);
 
-INSERT INTO organizers (name, contact_email, phone, bio) VALUES
-('Live Nation Slovakia', 'info@livenation.sk', '+421255566677', 'Popredný organizátor hudobných koncertov a festivalov.'),
-('Hockey Club Bratislava', 'tickets@hcba.sk', '+421233344455', 'Oficiálny klubový manažment a organizátor domácich zápasov.');
-
-INSERT INTO venues (name, city, address, capacity) VALUES
-('NTC Arena', 'Bratislava', 'Pragova 2', 4500),
-('Ondrej Nepela Arena', 'Bratislava', 'Odbojárov 9', 10000);
-
-INSERT INTO sections (venue_id, name, description) VALUES
-(2, 'Sektor A - Tribúna', 'Hlavná krytá tribúna s výhľadom na stred ľadu.'),
-(2, 'Sektor B - VIP', 'VIP sedenie vrátane občerstvenia.'),
-(1, 'Fón-zóna (Státie)', 'Voľný priestor priamo pod pódiom.');
-
-INSERT INTO seats (section_id, row_number, seat_number, is_standing) VALUES
-(1, '1', '1', FALSE),
-(1, '1', '2', FALSE),
-(1, '1', '3', FALSE),
-(2, 'VIP-1', '1', FALSE),
-(2, 'VIP-1', '2', FALSE),
-(3, 'STÁTIE', '001', TRUE),
-(3, 'STÁTIE', '002', TRUE);
-
-INSERT INTO events (organizer_id, venue_id, title, description, start_time, end_time, status) VALUES
-(2, 2, 'HC Bratislava vs. HC Košice', 'Hokejový zápas slovenskej extraligy.', '2026-03-15 18:00:00+01', '2026-03-15 20:30:00+01', 'upcoming'),
-(1, 1, 'Rock Symphony Orchestra', 'Najväčšie rockové hity v symfonickom podaní.', '2026-04-10 19:30:00+02', '2026-04-10 22:00:00+02', 'upcoming');
-
-INSERT INTO ticket_categories (event_id, name, price, description) VALUES
-(1, 'Štandard sedenie', 15.00, 'Bežné miesto na tribúne.'),
-(1, 'VIP All-Inclusive', 50.00, 'Sedenie v prvej rade + catering.'),
-(2, 'Fanklub Státie', 25.00, 'Lístok do prvej línie na státie.');
-
-INSERT INTO orders (user_id, total_amount, status) VALUES
-(1, 30.00, 'paid'),
-(2, 50.00, 'paid');
-
-INSERT INTO tickets (event_id, seat_id, category_id, order_id, status, barcode) VALUES
-(1, 1, 1, 1, 'sold', 'TKT-2026-0001'),
-(1, 2, 1, 1, 'sold', 'TKT-2026-0002'),
-(1, 4, 2, 2, 'sold', 'TKT-2026-0003'),
-(2, 6, 3, NULL, 'available', 'TKT-2026-0004');
-
-INSERT INTO order_items (order_id, ticket_id, price_at_purchase) VALUES
-(1, 1, 15.00),
-(1, 2, 15.00),
-(2, 3, 50.00);
+INSERT INTO order_items VALUES
+ (1, 1, 1, 50.00),
+ (2, 1, 2, 50.00),
+ (3, 2, 4, 25.00);
+ 
