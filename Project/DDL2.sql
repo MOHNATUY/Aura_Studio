@@ -5,38 +5,15 @@ DROP TABLE IF EXISTS customers CASCADE;
 DROP TABLE IF EXISTS ticket_categories CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS seats CASCADE;
-DROP TABLE IF EXISTS sections CASCADE;
 DROP TABLE IF EXISTS venues CASCADE;
-DROP TABLE IF EXISTS city CASCADE;
 DROP TABLE IF EXISTS organizers CASCADE;
-DROP TABLE IF EXISTS event_status CASCADE;
-DROP TABLE IF EXISTS ticket_status CASCADE;
-DROP TABLE IF EXISTS order_status CASCADE;
-
-CREATE TABLE event_status (
-    event_status_id INT PRIMARY KEY,
-    nazov           VARCHAR(50) NOT NULL UNIQUE,
-    poradie         INT NOT NULL
-);
-
-CREATE TABLE ticket_status (
-    ticket_status_id INT PRIMARY KEY,
-    nazov            VARCHAR(50) NOT NULL UNIQUE,
-    poradie          INT NOT NULL
-);
-
-CREATE TABLE order_status (
-    order_status_id INT PRIMARY KEY,
-    nazov           VARCHAR(50) NOT NULL UNIQUE,
-    poradie         INT NOT NULL
-);
 
 CREATE TABLE venues (
     venue_id INT PRIMARY KEY,
-    nazov    VARCHAR(150) NOT NULL,
-    ulica    VARCHAR(150) NOT NULL,
-    mesto    VARCHAR(100) NOT NULL,
-    psc      VARCHAR(10)  NOT NULL
+    name     VARCHAR(150) NOT NULL,
+    street   VARCHAR(150) NOT NULL,
+    city     VARCHAR(100) NOT NULL,
+    zip_code VARCHAR(10)  NOT NULL
 );
 
 CREATE TABLE seats (
@@ -49,27 +26,27 @@ CREATE TABLE seats (
 );
 
 CREATE TABLE events (
-    event_id        INT PRIMARY KEY,
-    venue_id        INT NOT NULL REFERENCES venues(venue_id),
-    nazov           VARCHAR(150) NOT NULL,
-    starts_at       TIMESTAMP NOT NULL,
-    event_status_id INT NOT NULL REFERENCES event_status(event_status_id)
+    event_id INT PRIMARY KEY,
+    venue_id INT NOT NULL REFERENCES venues(venue_id),
+    name     VARCHAR(150) NOT NULL,
+    starts_at TIMESTAMP NOT NULL,
+    status   VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE ticket_categories (
     category_id INT PRIMARY KEY,
     event_id    INT NOT NULL REFERENCES events(event_id),
-    nazov       VARCHAR(50) NOT NULL,
+    name        VARCHAR(50) NOT NULL,
     price       DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     UNIQUE (category_id, event_id)
 );
 
 CREATE TABLE tickets (
-    ticket_id        INT PRIMARY KEY,
-    event_id         INT NOT NULL,
-    category_id      INT NOT NULL,
-    seat_id          INT NOT NULL REFERENCES seats(seat_id),
-    ticket_status_id INT NOT NULL REFERENCES ticket_status(ticket_status_id),
+    ticket_id   INT PRIMARY KEY,
+    event_id    INT NOT NULL,
+    category_id INT NOT NULL,
+    seat_id     INT NOT NULL REFERENCES seats(seat_id),
+    status      VARCHAR(50) NOT NULL,
     FOREIGN KEY (category_id, event_id) REFERENCES ticket_categories (category_id, event_id),
     UNIQUE (event_id, seat_id)
 );
@@ -82,10 +59,10 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE orders (
-    order_id        INT PRIMARY KEY,
-    customer_id     INT NOT NULL REFERENCES customers(customer_id),
-    created_at      TIMESTAMP NOT NULL,
-    order_status_id INT NOT NULL REFERENCES order_status(order_status_id)
+    order_id    INT PRIMARY KEY,
+    customer_id INT NOT NULL REFERENCES customers(customer_id),
+    created_at  TIMESTAMP NOT NULL,
+    status      VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE order_items (
@@ -94,3 +71,4 @@ CREATE TABLE order_items (
     ticket_id     INT NOT NULL UNIQUE REFERENCES tickets(ticket_id),
     price         DECIMAL(10,2) NOT NULL CHECK (price >= 0)
 );
+
